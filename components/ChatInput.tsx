@@ -5,9 +5,10 @@ import { Attachment } from '../types';
 interface ChatInputProps {
   onSend: (message: string, attachment?: Attachment) => void;
   isLoading: boolean;
+  placeholder?: string;
 }
 
-export const ChatInput: React.FC<ChatInputProps> = ({ onSend, isLoading }) => {
+export const ChatInput: React.FC<ChatInputProps> = ({ onSend, isLoading, placeholder }) => {
   const [input, setInput] = useState('');
   const [isFocused, setIsFocused] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
@@ -207,7 +208,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({ onSend, isLoading }) => {
             onKeyDown={handleKeyDown}
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
-            placeholder={isRecording ? "Recording Audio..." : "Initialize search sequence..."}
+            placeholder={isRecording ? "Recording Audio..." : (placeholder || "Initialize search sequence...")}
             className="flex-1 bg-transparent border-0 focus:ring-0 text-slate-100 placeholder:text-slate-600 resize-none py-3 px-3 min-h-[48px] max-h-[200px] text-base leading-relaxed font-light font-sans"
             rows={1}
             disabled={isLoading}

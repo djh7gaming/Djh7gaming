@@ -93,16 +93,14 @@ export default function App() {
   };
 
   const handleModeChange = (newMode: AppMode) => {
-    // If the user clicks a different module, we generally want to start a fresh context
-    // for that specific tool, rather than converting the existing conversation.
-    if (state.messages.length > 0) {
-        setCurrentSessionId(null);
-        setState({
-            messages: [],
-            isLoading: false,
-            error: null
-        });
-    }
+    // Always force a fresh session when switching modes to ensure clean context.
+    // This solves the issue of "why is it not opening a new chat".
+    setCurrentSessionId(null);
+    setState({
+        messages: [],
+        isLoading: false,
+        error: null
+    });
     setMode(newMode);
   };
 
@@ -329,6 +327,22 @@ export default function App() {
     }
   };
 
+  const getPlaceholder = (m: AppMode) => {
+    switch(m) {
+      case 'nexus': return t.searchPlaceholder;
+      case 'coder': return "Describe the functionality or code you need...";
+      case 'motion': return "Describe a video to generate (e.g., 'A cyberpunk city in rain')...";
+      case 'polyglot': return "Type 'Start' or ask for a specific language lesson...";
+      case 'coach': return "How are you feeling right now? (I'll adapt the lesson)...";
+      case 'analyst': return "Paste data or ask for a trend analysis...";
+      case 'studio': return "Describe an image or design concept...";
+      case 'lexicon': return "Enter a word or concept to define...";
+      case 'scholar': return "What topic would you like to master today?";
+      case 'human': return "Chat with me like a friend...";
+      default: return "Message Lumière...";
+    }
+  };
+
   const theme = getThemeColors(mode);
 
   return (
@@ -446,7 +460,11 @@ export default function App() {
 
         <div className="p-4 z-20">
           <div className="max-w-4xl mx-auto">
-            <ChatInput onSend={(msg, att) => handleSendMessage(msg, att)} isLoading={state.isLoading} />
+            <ChatInput 
+              onSend={(msg, att) => handleSendMessage(msg, att)} 
+              isLoading={state.isLoading} 
+              placeholder={getPlaceholder(mode)}
+            />
           </div>
         </div>
       </div>
