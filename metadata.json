@@ -1,0 +1,8 @@
+{
+  "name": "Lumière",
+  "description": "A next-generation AI search engine powered by Gemini, featuring real-time web grounding and a beautiful, light-inspired interface.",
+  "requestFramePermissions": [
+    "microphone",
+    "camera"
+  ]
+}
